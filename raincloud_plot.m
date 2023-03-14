@@ -42,7 +42,7 @@ classdef raincloud_plot < handle
     %
     % Example usage:
     %   rcp = raincloud_plot(randi(1000,[1 500]),1,'EdgeColor',[0.5 0 0.2]);
-    %   rcpSizes = ones([1  500)*20;
+    %   rcpSizes = ones([1  500])*20;
     %   rcp.ScatterPlot.SizeDataSource = 'rcpSizes';
     %   refreshdata(rcp.ScatterPlot) %  bigger scatter points
     %   rcp.WhiskerPlot.Visible = 'off';
