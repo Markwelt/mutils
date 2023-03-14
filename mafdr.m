@@ -68,15 +68,16 @@ end
 
 bioinfochecknargin(nargin,1,mfilename);
 
-if isa(p, 'bioma.data.DataMatrix')
-    rownames = p.RowNames;
-    p = p.(':')(':');
+if isa(p, 'bioma.data.DataMatrix') %won't work in this stolen function
+    error('mafdr:biomaDataMatrix', 'bioma.data.DataMatrix not supported' )
+%     rownames = p.RowNames;
+%     p = p.(':')(':');
 else
     rownames = [];
 end
 
 if ~isnumeric(p) || ~isreal(p) || ~isvector(p)
-    error(message('bioinfo:mafdr:PValuesNotNumericAndRealVector'))
+    error('mafdr:PValuesNotNumericAndRealVector', 'P-values Not Numeric but Real Vector' )
 end
 
 % Initialization
@@ -90,7 +91,7 @@ methodGiven = false;
 % deal with the various inputs
 if nargin > 1
     if rem(nargin,2) == 0
-        error(message('bioinfo:mafdr:IncorrectNumberOfArguments', mfilename));
+        error('mafdr:IncorrectNumberOfArguments', 'Incorrect Number Of Arguments for %s', mfilename);
     end
     okargs = {'bhfdr', 'lambda', 'method', 'showplot'};
     for j=1:2:nargin-2
@@ -98,23 +99,23 @@ if nargin > 1
         pval = varargin{j+1};
         k = find(strncmpi(pname, okargs,length(pname)));
         if isempty(k)
-            error(message('bioinfo:mafdr:UnknownParameterName', pname));
+            error('mafdr:UnknownParameterName', 'Unknown Parameter Name: %s', pname);
         elseif length(k)>1
-            error(message('bioinfo:mafdr:AmbiguousParameterName', pname));
+            error('mafdr:AmbiguousParameterName', 'Ambiguous Parameter Name: %s', pname);
         else
             switch(k)
                 case 1 % BH FDR
                     bhflag = opttf(pval,okargs{k},mfilename);
                 case 2 % lambda
                     if ~isnumeric(pval) && isvector(pval) 
-                        error(message('bioinfo:mafdr:LambdaMustBeNumericAndVector'));
+                        error('mafdr:LambdaMustBeNumericAndVector','Lambda Must Be Numeric And Vector');
                     end
                     if numel(pval)> 1 && numel(pval) <4
-                        error(message('bioinfo:mafdr:badLambdaRange'))
+                        error('mafdr:badLambdaRange','Bad Lambda  Range')
                     end
                     lambda = sort(pval);
                     if any(lambda<=0) || any(lambda>=1) || any(diff(lambda)==0)
-                        error(message('bioinfo:mafdr:badLambdaValues'))
+                        error('mafdr:badLambdaValues','Bad Lambda Values')
                     end
                     lambdaGiven = true;
                 case 3 %lambda method
@@ -128,16 +129,17 @@ if nargin > 1
 end
 
 if bhflag && nargout>1
-    error(message('bioinfo:mafdr:maxlhsbh'))
+    error('mafdr:maxlhsbh','maxlhsbh')
 end
 if ~bhflag && bootflag && nargout>3
-    error(message('bioinfo:mafdr:maxlhspn'))
+    error('mafdr:maxlhspn','maxlhsbh')
 end
 if  bhflag && (methodGiven || lambdaGiven)
-    warning(message('bioinfo:mafdr:LambdaAndMethodIgnored'))
+         warning('mafdr:LambdaAndMethodIgnored','Lambda & Method Ignored: %s', methodGiven);
+    warning('mafdr:')
 end
 if methodGiven && isscalar(lambda)
-    warning(message('bioinfo:mafdr:MethodIgnored'))
+         warning('mafdr:MethodIgnored','Method Ignored: %s', methodGiven);
 end
 
 q=[];
@@ -200,7 +202,7 @@ else
 end
 
 if pi0 <= 0
-    error(message('bioinfo:mafdr:BadEstimatedPI0Value'));
+    error('mafdr:BadEstimatedPI0Value','Bad Estimation of PI0 Value');
 end
 
 % Estimate the positive FDR for each gene
@@ -237,7 +239,7 @@ else
 end
 
 if pi0 > 1
-     warning(message('bioinfo:mafdr:PoorEstimatedPI0Value'));
+     warning('Poor Estimation of PI0 Value (min)');
 end
 pi0 = min(pi0, 1);
 
@@ -247,9 +249,8 @@ n = numel(lambda) - 1;
 rs = 1 - s.normr^2/(n*sd^2);
 
 if rs < 0.90 
-    warning(message('bioinfo:mafdr:PoorCubicPolynomialFit',sprintf('%0.4f',rs)));
+    warning('mafdr:PoorCubicPolynomialFit','Poor Cubic Polynomial Fit: %0.4f',rs);
 end
-
 
 %--------------------------------------------------------
 function pi0 = bootstrapchooser(pi0, lambda, p)
@@ -285,7 +286,7 @@ mse(mseCount<=(max(mseCount)./2)) = inf;
 pi0 = pi0(minmse_idx);
 
 if pi0 > 1
-     warning(message('bioinfo:mafdr:PoorEstimatedPI0Value'));
+     warning('Poor Estimation of PI0 Value (min)');
      pi0 = min(pi0,1);
 end
 
@@ -397,8 +398,8 @@ function bioinfochecknargin(numArgs,low,name)
 
     
 if numArgs < low
-    msg = getString(message('bioinfo:bioinfochecknargin:NotEnoughInputs'));
-    msgId = sprintf('bioinfo:%s:NotEnoughInputs',name);
+    msg = sprintf('Not Enough Inputs for %s; %d < %d', name, numArgs, low);
+    msgId = sprintf('bioinfochecknargin:%s:NotEnoughInputs',name);
     x = MException(msgId,msg);
     x.throwAsCaller;    
 end
@@ -448,11 +449,9 @@ if nargin == 1
     tf = logical([]);
 else
     okarg(1) = upper(okarg(1));
-    msg = getString(message('bioinfo:opttf:OptionNotLogical',upper(okarg)));
-    msgId = sprintf('bioinfo:%s:%sOptionNotLogical', matlabfile, okarg);
+    msg = sprintf('Option Not Logical: %s; %s', matlabfile, okarg);
+    msgId = sprintf('opttf:%s:%sOptionNotLogical', matlabfile, okarg);
     x = MException(msgId,msg);
     x.throwAsCaller;
 end
-
-
 
