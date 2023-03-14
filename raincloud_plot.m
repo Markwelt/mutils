@@ -1,15 +1,15 @@
 classdef raincloud_plot < handle
     % raincloud_plot creates raincloud plots for some data
-    %   A raincloud plot is an easy to read substitute for a box plot
-    %   that replaces the box shape with a kernel density estimate of
-    %   the data, and optionally overlays the data points itself.
+    %   A raincloud plot is an easy to read substitute for 
+    %   a box plot that replaces the box shape with a kernel
+    %   density estimate of the data, and optionally overlays
+    %   the data points itself.
     %
-    %   Additional constructor parameters include the width of the
-    %   plot, the bandwidth of the kernel density estimation, and the
-    %   X-axis position of the raincloud plot.
+    %   Additional constructor parameters include the width 
+    %   of the plot, the bandwidth of the kernel density 
+    %   estimation, and the X-axis position of the raincloud plot.
     %
-    %   Use <a href="matlab:help('raincloudplot')">raincloudplot</a> for a
-    %   <a href="matlab:help('boxplot')">boxplot</a>-like wrapper for
+    %   Use raincloud_plot for a <a href="matlab:help('boxplot')">boxplot</a>-like wrapper for
     %   interactive plotting.
     %
     % raincloud_plot Properties:
@@ -39,6 +39,14 @@ classdef raincloud_plot < handle
     %    MedianPlot  - <a href="matlab:help('scatter')">scatter</a> plot of the median (one point)
     %    NotchPlots  - <a href="matlab:help('scatter')">scatter</a> plots for the notch indicators
     %    MeanPlot    - line <a href="matlab:help('plot')">plot</a> at mean value
+    %
+    % Example usage:
+    %   rcp = raincloud_plot(distribution,1,'raincloudColor','g','EdgeColor','b');
+    %   rcpSizes = ones([1  numel(distribution)])*20;
+    %   rcp.ScatterPlot.SizeDataSource = 'rcpSizes';
+    %   refreshdata(rcp.ScatterPlot) %  bigger scatter points
+    %   rcp.WhiskerPlot.Visible = 'off';
+    %
 
     % Adapted by MaFu from violin_plot.m (Matlab Exchange) Violin.m (from github: Violinplot-Matlab)
     % Copyright (c) 2016, Bastian Bechtold
