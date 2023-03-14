@@ -41,8 +41,8 @@ classdef raincloud_plot < handle
     %    MeanPlot    - line <a href="matlab:help('plot')">plot</a> at mean value
     %
     % Example usage:
-    %   rcp = raincloud_plot(distribution,1,'raincloudColor','g','EdgeColor','b');
-    %   rcpSizes = ones([1  numel(distribution)])*20;
+    %   rcp = raincloud_plot(randi(1000,[1 500]),1,'EdgeColor',[0.5 0 0.2]);
+    %   rcpSizes = ones([1  500)*20;
     %   rcp.ScatterPlot.SizeDataSource = 'rcpSizes';
     %   refreshdata(rcp.ScatterPlot) %  bigger scatter points
     %   rcp.WhiskerPlot.Visible = 'off';
