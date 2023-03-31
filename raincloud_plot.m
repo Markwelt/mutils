@@ -16,7 +16,7 @@ classdef raincloud_plot < handle
     % raincloud_plot Properties:
     %    CloudColor  - Fill color of the raincloud area and data points.
     %                  Defaults to the next default color cycle.
-    %    CloudAlpha  - Transparency of the ciolin area and data points.
+    %    CloudAlpha  - Transparency of the cloud area and data points.
     %                  Defaults to 0.3.
     %    EdgeColor   - Color of the raincloud area outline.
     %                  Defaults to [0.5 0.5 0.5]
