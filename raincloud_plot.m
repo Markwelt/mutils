@@ -2,8 +2,8 @@ classdef raincloud_plot < handle
     % raincloud_plot creates raincloud plots for some data
     %   A raincloud plot is an easy to read substitute for 
     %   a box plot that replaces the box shape with a kernel
-    %   density estimate of the data (cloud), and optionally adjoins
-    %   the data points (rain).
+    %   density estimate of the data (cloud), and optionally 
+    %   adjoins the data points (rain).
     %
     %   Additional constructor parameters include the width 
     %   of the plot, the bandwidth of the kernel density 
@@ -41,8 +41,8 @@ classdef raincloud_plot < handle
     %    MeanPlot    - line <a href="matlab:help('plot')">plot</a> at mean value
     %
     % Example usage:
-    %   rcp = raincloud_plot(randi(1000,[1 500]),1,'EdgeColor',[0.5 0 0.2]);
-    %   rcpSizes = ones([1  500])*20;
+    %   rcp = raincloud_plot(randi(1000,[1, 500]),1,'EdgeColor',[0.5 0 0.2]);
+    %   rcpSizes = ones([1, 500])*20;
     %   rcp.ScatterPlot.SizeDataSource = 'rcpSizes';
     %   refreshdata(rcp.ScatterPlot) %  bigger scatter points
     %   rcp.WhiskerPlot.Visible = 'off';
