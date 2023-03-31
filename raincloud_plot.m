@@ -2,8 +2,8 @@ classdef raincloud_plot < handle
     % raincloud_plot creates raincloud plots for some data
     %   A raincloud plot is an easy to read substitute for 
     %   a box plot that replaces the box shape with a kernel
-    %   density estimate of the data, and optionally overlays
-    %   the data points itself.
+    %   density estimate of the data (cloud), and optionally adjoins
+    %   the data points (rain).
     %
     %   Additional constructor parameters include the width 
     %   of the plot, the bandwidth of the kernel density 
