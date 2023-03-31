@@ -1,6 +1,7 @@
 classdef raincloud_plot < handle
     % raincloud_plot creates raincloud plots for some data
-    %   A raincloud plot is an easy to read substitute for 
+    %   A raincloud plot, a half violin plot with adjacent
+    %   data scatter, is an easy to read substitute for 
     %   a box plot that replaces the box shape with a kernel
     %   density estimate of the data (cloud), and optionally 
     %   adjoins the data points (rain).
@@ -48,8 +49,8 @@ classdef raincloud_plot < handle
     %   rcp.WhiskerPlot.Visible = 'off';
     %
 
-    % Adapted by MaFu from violin_plot.m (Matlab Exchange) Violin.m (from github: Violinplot-Matlab)
-    % Copyright (c) 2016, Bastian Bechtold
+    % Adapted from violin_plot.m (Matlab Exchange) and an earlier version of 
+    % Violin.m (from github: Violinplot-Matlab) by Bastian Bechtold
     % This code is released under the terms of the BSD 3-clause license
 
     properties
