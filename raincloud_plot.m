@@ -13,9 +13,9 @@ classdef raincloud_plot < handle
     %   interactive plotting.
     %
     % raincloud_plot Properties:
-    %    raincloudColor - Fill color of the raincloud area and data points.
+    %    CloudColor  - Fill color of the raincloud area and data points.
     %                  Defaults to the next default color cycle.
-    %    raincloudAlpha - Transparency of the ciolin area and data points.
+    %    CloudAlpha  - Transparency of the ciolin area and data points.
     %                  Defaults to 0.3.
     %    EdgeColor   - Color of the raincloud area outline.
     %                  Defaults to [0.5 0.5 0.5]
@@ -33,7 +33,7 @@ classdef raincloud_plot < handle
     %
     % raincloud_plot Children:
     %    ScatterPlot - <a href="matlab:help('scatter')">scatter</a> plot of the data points
-    %    raincloudPlot  - <a href="matlab:help('fill')">fill</a> plot of the kernel density estimate
+    %    CloudPlot   - <a href="matlab:help('fill')">fill</a> plot of the kernel density estimate
     %    BoxPlot     - <a href="matlab:help('fill')">fill</a> plot of the box between the quartiles
     %    WhiskerPlot - line <a href="matlab:help('plot')">plot</a> between the whisker ends
     %    MedianPlot  - <a href="matlab:help('scatter')">scatter</a> plot of the median (one point)
@@ -54,7 +54,7 @@ classdef raincloud_plot < handle
 
     properties
         ScatterPlot % scatter plot of the data points
-        raincloudPlot  % fill plot of the kernel density estimate
+        CloudPlot   % fill plot of the kernel density estimate
         BoxPlot     % fill plot of the box between the quartiles
         WhiskerPlot % line plot between the whisker ends
         MedianPlot  % scatter plot of the median (one point)
@@ -63,8 +63,8 @@ classdef raincloud_plot < handle
     end
 
     properties (Dependent=true)
-        raincloudColor % fill color of the raincloud area and data points
-        raincloudAlpha % transparency of the raincloud area and data points
+        CloudColor  % fill color of the raincloud area and data points
+        CloudAlpha  % transparency of the raincloud area and data points
         EdgeColor   % color of the raincloud area outline
         BoxColor    % color of box, whiskers, and median/notch edges
         MedianColor % fill color of median and notches
@@ -86,10 +86,10 @@ classdef raincloud_plot < handle
             %     'Bandwidth'    Bandwidth of the kernel density
             %                    estimate. Should be between 10% and
             %                    40% of the data range.
-            %     'raincloudColor'  Fill color of the raincloud area and
+            %     'CloudColor'   Fill color of the raincloud area and
             %                    data points. Defaults to the next
             %                    default color cycle.
-            %     'raincloudAlpha'  Transparency of the raincloud area and
+            %     'CloudAlpha'   Transparency of the raincloud area and
             %                    data points. Defaults to 0.3.
             %     'EdgeColor'    Color of the raincloud area outline.
             %                    Defaults to [0.5 0.5 0.5]
@@ -140,7 +140,7 @@ classdef raincloud_plot < handle
             % plot the data points within the raincloud area
             jitter =  0.5*widthdens.*(rand(size(data))-0.5);  %vi0lin had instead 2*(rand()) and jitter.*jitterstrength
             obj.ScatterPlot = ...
-                scatter(pos - 0.4*widthdens + jitter, data, 20, 'filled'); %MaFu addition
+                scatter(pos - 0.4*widthdens + jitter, data, 20, 'filled'); 
 
             % plot the data mean
             meanValue = mean(value);
@@ -154,23 +154,23 @@ classdef raincloud_plot < handle
             obj.MeanPlot.LineWidth = 0.75;
 
             % plot the raincloud
-            obj.raincloudPlot =  ... % plot color will be overwritten later
+            obj.CloudPlot =  ... % plot color will be overwritten later
                 fill([pos+density*width ones([1 ndens])*pos], ... violin had instead pos-density(end:-1:1)*width
-                     [value value(end:-1:1)], [1 1 1], 'Marker', 'none', 'LineStyle', '-'); %MaFu addition
+                     [value value(end:-1:1)], [1 1 1], 'Marker', 'none', 'LineStyle', '-'); 
 
             % plot the mini-boxplot within the raincloud
             quartiles = quantile(data, [0.25, 0.5, 0.75]);
             obj.BoxPlot = ... % plot color will be overwritten later
                 fill([pos-0.005 pos+0.005 pos+0.005 pos-0.005], ...
                      [quartiles(1) quartiles(1) quartiles(3) quartiles(3)], ...
-                     [1 1 1], 'Marker', 'none', 'LineStyle', '-'); %MaFu addition
+                     [1 1 1], 'Marker', 'none', 'LineStyle', '-'); 
             IQR = quartiles(3) - quartiles(1);
             lowhisker = quartiles(1) - 1.5*IQR;
             lowhisker = max(lowhisker, min(data(data > lowhisker)));
             hiwhisker = quartiles(3) + 1.5*IQR;
             hiwhisker = min(hiwhisker, max(data(data < hiwhisker)));
             if ~isempty(lowhisker) && ~isempty(hiwhisker)
-                obj.WhiskerPlot = plot([pos pos], [lowhisker hiwhisker], 'Marker', 'none', 'LineStyle', '-'); %MaFu addition
+                obj.WhiskerPlot = plot([pos pos], [lowhisker hiwhisker], 'Marker', 'none', 'LineStyle', '-'); 
             end
             obj.MedianPlot = scatter(pos, quartiles(2), [], [1 1 1], 'filled');
 
@@ -184,23 +184,23 @@ classdef raincloud_plot < handle
             obj.EdgeColor = args.EdgeColor;
             obj.BoxColor = args.BoxColor;
             obj.MedianColor = args.MedianColor;
-            if not(isempty(args.raincloudColor))
-                obj.raincloudColor = args.raincloudColor;
+            if not(isempty(args.CloudColor))
+                obj.CloudColor = args.CloudColor;
             else
-                obj.raincloudColor = obj.ScatterPlot.CData;
+                obj.CloudColor = obj.ScatterPlot.CData;
             end
-            obj.raincloudAlpha = args.raincloudAlpha;
+            obj.CloudAlpha = args.CloudAlpha;
             obj.ShowData = args.ShowData;
             obj.ShowNotches = args.ShowNotches;
             obj.ShowMean = args.ShowMean;
         end
 
         function set.EdgeColor(obj, color)
-            obj.raincloudPlot.EdgeColor = color;
+            obj.CloudPlot.EdgeColor = color;
         end
 
         function color = get.EdgeColor(obj)
-            color = obj.raincloudPlot.EdgeColor;
+            color = obj.CloudPlot.EdgeColor;
         end
 
         function set.MedianColor(obj, color)
@@ -228,23 +228,23 @@ classdef raincloud_plot < handle
             color = obj.BoxPlot.FaceColor;
         end
 
-        function set.raincloudColor(obj, color)
-            obj.raincloudPlot.FaceColor = color;
-            obj.ScatterPlot.MarkerFaceColor = color*0.7; %MaFu addition
+        function set.CloudColor(obj, color)
+            obj.CloudPlot.FaceColor = color;
+            obj.ScatterPlot.MarkerFaceColor = color*0.7; 
             obj.MeanPlot.Color = color;
         end
 
-        function color = get.raincloudColor(obj)
-            color = obj.raincloudPlot.FaceColor;
+        function color = get.CloudColor(obj)
+            color = obj.CloudPlot.FaceColor;
         end
 
-        function set.raincloudAlpha(obj, alpha)
+        function set.CloudAlpha(obj, alpha)
             obj.ScatterPlot.MarkerFaceAlpha = alpha;
-            obj.raincloudPlot.FaceAlpha = alpha;
+            obj.CloudPlot.FaceAlpha = alpha;
         end
 
-        function alpha = get.raincloudAlpha(obj)
-            alpha = obj.raincloudPlot.FaceAlpha;
+        function alpha = get.CloudAlpha(obj)
+            alpha = obj.CloudPlot.FaceAlpha;
         end
 
         function set.ShowData(obj, yesno)
@@ -295,11 +295,11 @@ classdef raincloud_plot < handle
             p.addParameter('Width', [], isscalarnumber);
             p.addParameter('Bandwidth', [], isscalarnumber);
             iscolor = @(x) (isnumeric(x) & length(x) == 3);
-            p.addParameter('raincloudColor', [], iscolor);
+            p.addParameter('CloudColor', [], iscolor);
             p.addParameter('BoxColor', [0.5 0.5 0.5], iscolor);
             p.addParameter('EdgeColor', [0.5 0.5 0.5], iscolor);
             p.addParameter('MedianColor', [1 1 1], iscolor);
-            p.addParameter('raincloudAlpha', 0.3, isscalarnumber);
+            p.addParameter('CloudAlpha', 0.3, isscalarnumber);
             isscalarlogical = @(x) (islogical(x) & isscalar(x));
             p.addParameter('ShowData', true, isscalarlogical);
             p.addParameter('ShowNotches', false, isscalarlogical);
