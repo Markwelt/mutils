@@ -149,7 +149,7 @@ classdef raincloud_plot < handle
             else % all data is identical:
                 meanDensity = density;
             end
-            obj.MeanPlot = plot([pos-meanDensity*width pos+meanDensity*width], ...
+            obj.MeanPlot = plot([pos pos+meanDensity*width], ...
                                 [meanValue meanValue]);
             obj.MeanPlot.LineWidth = 0.75;
 
